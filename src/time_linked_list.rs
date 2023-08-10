@@ -54,7 +54,8 @@ where E: Fn(&mut T), L: Fn(&mut T)
             self.next_tick = front.start;
             self.linked_list.push_back(front);
             return self.get()
+        } else {
+            &mut self.data
         }
-        &mut self.data
     }
 }

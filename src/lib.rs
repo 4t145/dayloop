@@ -1,7 +1,6 @@
 mod time_linked_list;
 pub use time_linked_list::*;
 
-
 #[cfg(test)]
 mod tests {
     use chrono::Local;
@@ -12,13 +11,14 @@ mod tests {
     fn test_1() {
         pub enum State {
             Running,
-            Halted
+            Halted,
         }
-        let mut list = DayLoop::new(State::Halted);
-        list.insert(TimeLinkedListNode {
-            start: Local::now().time(),
-            enter: Some(|x: &mut State|*x = State::Running),
-            leave: Some(|x: &mut State|*x = State::Halted),
-        })
+        let mut dayloop = DayLoop::new(State::Halted);
+        let mut node: TimeLinkedListNode<State> = Local::now().time().into();
+        node.on_enter(|s| *s = State::Halted);
+        node.on_leave(|s| *s = State::Running);
+        dayloop.insert(node);
+        let s = dayloop.get();
+        dayloop.get();
     }
 }
